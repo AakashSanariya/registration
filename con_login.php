@@ -10,6 +10,12 @@
 		if(mysqli_num_rows($result) == $sucess){
 			$_SESSION['login'] = "Sucssfully Login";
 			$_SESSION['user'] = $userName;
+			/* Session time out*/
+			$_SESSION['expire'] = time() + (50);
+
+			/* Set Cookies*/
+			$cookesValue = $userName;
+			setcookie("Email", $cookesValue, time() + (50), "/");
 			header("location: home.php");
 		}
 		else{

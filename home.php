@@ -3,6 +3,13 @@
 	if(!isset($_SESSION['user'])){
 		header("location: login.php");
 	}
+  else{
+    if(time() > $_SESSION['expire']){
+      session_destroy();
+      /*Cookies Destroy*/
+      setcookie("Email", "", time() - 50);
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,6 +33,17 @@
       	How are You?
       </h6>
       <a href="con_logout.php" class="btn btn-primary">Log out</a>
+
+      <!-- For admin user can see all user list -->
+      <div class="card-body">
+        <?php
+          if($_SESSION['user'] == "admin@gmail.com"){
+        ?>
+        <a href="listUser.php">Click here to See All User</a>
+        <?php
+          }
+        ?>
+      </div>
     </div>
   </div>
   <br>
