@@ -11,6 +11,14 @@
 		echo "!Sorry Some Error Occurs in Email";
 	}
 
+	/* Pincode Validation*/
+
+
+	/* Password Validation */
+	if($_POST['password'] != $_POST['confirmPassword'] && strlen($_POST['password']) >= 6){
+		echo "!Sorry password and confirm password don't match.";
+	}
+
 	/* email check already exit or not*/
 	include_once("database.php");
 	$email = $_POST['email'];
@@ -23,18 +31,12 @@
 		exit();
 	}
 
-	/* Pincode Validation*/
-	if(strlen($_POST['pincode']) <= 8 && strlen($_POST['pincode']) >= 6){
-	 	echo "!Sorry Some Error Occurs in Pincode";
-	}
-
-	/* Password Validation */
-	if($_POST['password'] != $_POST['confirmPassword'] && strlen($_POST['password']) >= 6){
-		echo "!Sorry password and confirm password don't match.";
-	}
-
 	/* Database Connection*/
 	else{
+
+        /* Mail Send */
+		include_once("emailTemplate.php");
+
 		include_once('database.php');
 		$encPass = md5($_POST['password']);
 		$sql = "INSERT INTO user (id, firstName, lastName, email, pincode, password) VALUES (NULL, '$firstName', '$lastName', '$email', '$pincode', '$encPass')";
@@ -50,5 +52,5 @@
 		}
 	}
 
-	
+
 ?>
