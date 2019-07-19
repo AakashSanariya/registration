@@ -3,6 +3,10 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header("location: login.php");
 } else {
+    if($_SESSION['user'] != "admin@gmail.com"){
+        header("location: home.php");
+        $_SESSION['admin'] = "Only Admin User Can Access This Link";
+    }
     if (time() > $_SESSION['expire']) {
         session_destroy();
 
