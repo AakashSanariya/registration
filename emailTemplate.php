@@ -20,7 +20,7 @@ $mail->Port       = 587;
 
 //Recipients
 $mail->setFrom('crazydev82@gmail.com', 'User Registration');
-$mail->addAddress('akash.sanariya@brainvire.com', 'Akash Sanariya');
+$mail->addAddress($email, "$firstName $lastName");
 
 // Content
 $mail->isHTML(true);
@@ -101,7 +101,7 @@ $mail->Body    = "
                                             <tr>
                                                 <td align=\"center\">
                                                     <div style=\"line-height: 24px;\">
-                                                        <button><a href=\"login.php\" target=\"_blank\" class=\"btn btn-danger block-center\">click</a></button>
+                                                        <button><a href=\"localhost/userRegistration/activate.php?code=$verificationCode\" target=\"_blank\" class=\"btn btn-danger block-center\">Click here to Verify</a></button>
                                                     </div>
                                                     <div style=\"height: 60px; line-height: 60px; font-size: 10px;\"></div>
                                                 </td>
@@ -119,10 +119,10 @@ $mail->Body    = "
     </table>
 </body>
 </html>";
-
-
 $mail->send();
-} catch (Exception $e) {
-echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    die();
 }
 ?>

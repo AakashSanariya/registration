@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	extract($_POST);
 
 	/* Name Validation */
@@ -10,9 +11,6 @@
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 		echo "!Sorry Some Error Occurs in Email";
 	}
-
-	/* Pincode Validation*/
-
 
 	/* Password Validation */
 	if($_POST['password'] != $_POST['confirmPassword'] && strlen($_POST['password']) >= 6){
@@ -33,14 +31,20 @@
 
 	/* Database Connection*/
 	else{
+		/* Random generated code for verification*/
+		$randomCode = rand();
+		$verificationCode = md5($randomCode);
+		$verified = "0";
+
 
         /* Mail Send */
 		include_once("emailTemplate.php");
 
 		include_once('database.php');
 		$encPass = md5($_POST['password']);
-		$sql = "INSERT INTO user (id, firstName, lastName, email, pincode, password) VALUES (NULL, '$firstName', '$lastName', '$email', '$pincode', '$encPass')";
+		$sql = "INSERT INTO user (id, firstName, lastName, email, pincode, password, verificationCode, verified) VALUES (NULL, '$firstName', '$lastName', '$email', '$pincode', '$encPass', '$verificationCode', $verified)";
 		$result = mysqli_query($con, $sql);
+		$_SESSION['verification'] = "Verification Email Send To Your Email Address Please Check and Verify First";
 
 		/* Check to Insert data in database*/
 		$success = "1";

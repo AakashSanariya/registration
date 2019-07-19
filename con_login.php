@@ -4,7 +4,9 @@
 		include_once("database.php");
 		$userName = $_POST['email'];
 		$password = md5($_POST['password']);
-		$sql = "SELECT * FROM user WHERE email='$userName' AND password='$password'";
+
+		/* check email, password and verified account or not */
+		$sql = "SELECT * FROM user WHERE email='$userName' AND password='$password' AND verified='1'";
 		$result = mysqli_query($con, $sql);
 		$sucess = "1";
 		if(mysqli_num_rows($result) == $sucess){
@@ -19,7 +21,7 @@
 			header("location: home.php");
 		}
 		else{
-			$_SESSION['error'] = "!Opps Some error occurs";
+			$_SESSION['error'] = "!Opps Some error occurs in Username and Password";
 			header("location: login.php");
 		}
 ?>

@@ -1,5 +1,8 @@
 <?php
   session_start();
+  if (isset($_SESSION['user'])){
+    header("location: home.php");
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,6 +35,20 @@
     </div>
     <div class="fadeIn second">
         <?php
+          
+          /* Coming From Activate file Verified or not First */
+          if(isset($_SESSION['verified'])){
+            echo "<div><span style='color:blue;'>".$_SESSION['verified']."</span><div>";
+            session_unset($_SESSION['verified']);
+          }
+          
+          /*After Registration Direct print messsage */
+          if(isset($_SESSION['verification'])){
+            echo "<div><span style='color:green;'>".$_SESSION['verification']."</span><div>";
+            session_unset($_SESSION['verification']);
+          }
+        
+          /* error occurs user name and password wrong*/
           if(isset($_SESSION['error'])){
             echo "<div><span style='color:red;'>".$_SESSION['error']."</span><div>";
             session_unset($_SESSION['error']);
