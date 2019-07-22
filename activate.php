@@ -3,6 +3,20 @@
     extract($_GET);
     include_once("database.php");
 
+    /* Check Timeout for verification Code*/
+    $verificationTime = "SELECT * FROM user WHERE verificationCode='".$_GET['code']."'";
+    $verificationTimeResult = mysqli_query($con,$verificationTime);
+    while ($row=mysqli_fetch_assoc($verificationTimeResult)) {
+        $currentTime = date('Y-m-d H:i');
+        $expireTime = date('Y-m-d H:i', strtotime('+1 day',strtotime($row['verificationTimeOut'])));
+        if ($currentTime >= $expireTime) {
+
+            $removeVerificationCode = "DELETE FROM user WHERE verificationCode='" . $_GET['code'] . "'";
+            $removeResult = mysqli_query($con, $removeVerificationCode);
+            $_SESSION['expire'] = "Your verification Code Expire Please Fill Form And Verify Email";
+            header("location:index.php");
+        }
+    }
     /* Verify for Verification Code*/
     $sql = "SELECT id FROM user WHERE verificationCode='".$_GET['code']."'";
     $result = mysqli_query($con, $sql);

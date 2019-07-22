@@ -29,23 +29,22 @@
 		exit();
 	}
 
+
 	/* Database Connection*/
 	else{
 		/* Random generated code for verification*/
 		$randomCode = rand();
 		$verificationCode = md5($randomCode);
 		$verified = "0";
-
-
         /* Mail Send */
 		include_once("emailTemplate.php");
 
 		include_once('database.php');
 		$encPass = md5($_POST['password']);
+		/*data Insert First Time*/
 		$sql = "INSERT INTO user (id, firstName, lastName, email, pincode, password, verificationCode, verified) VALUES (NULL, '$firstName', '$lastName', '$email', '$pincode', '$encPass', '$verificationCode', $verified)";
 		$result = mysqli_query($con, $sql);
 		$_SESSION['verification'] = "Verification Email Send To Your Email Address Please Check and Verify First";
-
 		/* Check to Insert data in database*/
 		$success = "1";
 		if($result == $success){

@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -27,6 +28,12 @@ error_reporting(E_ALL);
 <div class="container register">
 	<div class="row">
 		<div class="col-md-3 register-left">
+			<?php
+			if(isset($_SESSION['expire'])){
+				echo "<div><span style='color:red;'>".$_SESSION['expire']."</span></div>";
+				session_unset($_SESSION['expire']);
+			}
+			?>
 		</div>
 		<div class="col-md-9 register-right">
 			<div class="tab-content" id="myTabContent">
